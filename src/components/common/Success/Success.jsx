@@ -15,9 +15,9 @@ const Success = (props) => {
       <h6 className={styles.name}>Vitalic</h6>
       <Dropdown
         items={[
-          { item: "****" },
-          { item: "****" },
-          { item: "Logout", onClickHandler: onLogoutSubmit },
+          { id: "1", item: "****" },
+          { id: "2", item: "****" },
+          { id: "3", item: "Logout", onClickHandler: onLogoutSubmit },
         ]}
       />
     </div>

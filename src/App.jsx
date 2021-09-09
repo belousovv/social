@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { getInitialized } from "./redux/app-selectors";
 import Preloader from "./components/common/Preloader/Preloader";
 import Dialogs from "./components/Dialogs/Dialogs";
+import Contacts from "./components/Contacts/Contacts";
 
 const App = (props) => {
   useEffect(() => {
@@ -25,12 +26,13 @@ const App = (props) => {
             <Route exact path="/" render={() => <Redirect to="/profile" />} />
             <Route path="/profile" render={() => <Profile />} />
             <Route path="/messages" render={() => <Dialogs />} />
+            <Route path="/contacts" render={() => <Contacts />} />
           </Switch>
         </main>
       </div>
     );
   } else {
-    return <Preloader />
+    return <Preloader />;
   }
 };
 

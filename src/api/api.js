@@ -30,3 +30,9 @@ export const securityApi = {
       .then((response) => response.data);
   },
 };
+
+export const usersApi = {
+  getContacts(count, page) {
+    return instance.get(`users?page=${page}&count=${count}`).then(response => response.data);
+  }
+}

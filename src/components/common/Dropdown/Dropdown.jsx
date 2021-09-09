@@ -10,7 +10,7 @@ const Dropdown = (props) => {
           </svg>
       </div>
       <ul className={styles.content}>
-        {props.items.map(el => <li onClick={el.onClickHandler}>{el.item}</li>)}
+        {props.items.map(el => <li key={el.id} onClick={el.onClickHandler}>{el.item}</li>)}
       </ul>
     </div>
   );

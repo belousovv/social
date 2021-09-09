@@ -25,6 +25,15 @@ const Header = () => {
               Messages
             </NavLink>
           </li>
+          <li className={styles.item}>
+            <NavLink
+              className={styles.link}
+              activeClassName={styles.active}
+              to="/contacts"
+            >
+              Contacts
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>
