@@ -1,0 +1,35 @@
+.search {
+    position: relative;
+}
+
+.search::before {
+    position: absolute;
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-image: url("../../../img/search-icon.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    top: 8px;
+    left: 12px;
+}
+
+.input {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    height: 30px;
+    background-color: #e9f0f4;
+    border-radius: 10px;
+    padding-left: 40px;
+    padding-right: 10px;
+    outline: none;
+    color: var(--default-text-color);
+}
+
+.input::placeholder {
+    color: var(--grey-text-color);
+}

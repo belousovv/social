@@ -1,0 +1,8 @@
+.dialogs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrapper {
+    width: 100%;
+}

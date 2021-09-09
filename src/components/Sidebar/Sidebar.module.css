@@ -1,0 +1,13 @@
+.sidebar {
+    height: calc(100vh - 20px);
+    width: 300px;
+    flex: none;
+    background-color: var(--grey-bg);
+    border-radius: 10px;
+    padding: 10px 20px;
+    color: var(--default-text-color);
+}
+
+.item {
+    margin-bottom: 30px;
+}

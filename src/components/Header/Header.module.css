@@ -1,0 +1,37 @@
+.header {
+  background-color: var(--grey-bg);
+  height: 45px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: var(--section-mb-big);
+}
+
+.item {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.link {
+  border-radius: 10px;
+  padding: 5px 10px;
+  color: var(--grey-text-color);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.5s;
+}
+
+.link:hover {
+  background-color: #c0dbfa;
+  color: #0b393f;
+  box-shadow: var(--select-shadow);
+}
+
+.active {
+  background-color: #c0dbfa;
+  color: #0b393f;
+  box-shadow: var(--select-shadow);
+}

@@ -1,0 +1,48 @@
+.svg {
+  width: 20px;
+  height: 10px;
+  margin-top: 3px;
+}
+
+.btn {
+  background-color: transparent;
+  border: none;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 100px;
+  box-shadow: var(--select-shadow);
+  z-index: 1;
+}
+
+.content li {
+  color: var(--default-text-color);
+  padding: 6px 16px;
+  display: block;
+  cursor: pointer;
+  background-color: #e9f0f4;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.content li:hover {
+  background-color: #c0dbfa;
+}
+
+.dropdown:hover .content {
+  display: block;
+}
