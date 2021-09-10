@@ -1,6 +1,8 @@
 import { usersApi } from "../api/api";
 
 const initialState = {
+  page: 1,
+  count: 8,
   contacts: null,
 };
 
@@ -30,7 +32,10 @@ const contactsReducer = (state = initialState, action) => {
 
 // thunks
 
-export const getContacts = (count = 8, page = 1) => {
+export const getContacts = (
+  count = initialState.count,
+  page = initialState.page
+) => {
   return async (dispatch) => {
     const response = await usersApi.getContacts(count, page);
     dispatch(setContacts(response.items));

@@ -31,3 +31,11 @@
     font-weight: 700;
     font-size: 18px;
 }
+
+.follow {
+    color: green;
+}
+
+.unfollow {
+    color: #7d7d7d;
+}

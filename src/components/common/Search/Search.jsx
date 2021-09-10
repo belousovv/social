@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import styles from "./Search.module.css";
 
 const Search = (props) => {
-  const { register, watch, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = () => {
     // console.log(watch("input"));
   };
@@ -13,7 +13,7 @@ const Search = (props) => {
         <input
           className={styles.input}
           {...register("input")}
-          type="text"
+          type="search"
           placeholder="search"
         />
       </form>

@@ -2,7 +2,6 @@ import React from "react";
 import Contact from "./Contact/Contact";
 import styles from "./Contacts.module.css";
 import defaultAvatar from "../../../img/default-avatar.png";
-import { NavLink } from "react-router-dom";
 
 const Contacts = (props) => {
   return (
