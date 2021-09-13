@@ -11,10 +11,13 @@ import { getInitialized } from "./redux/app-selectors";
 import Preloader from "./components/common/Preloader/Preloader";
 import Dialogs from "./components/Dialogs/Dialogs";
 import Contacts from "./components/Contacts/Contacts";
+import LoginWarning from "./components/LoginWarning/LoginWarning";
+import Page404 from "./components/Page404/Page404";
 
 const App = (props) => {
   useEffect(() => {
     props.startInitialize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (props.isInitialize) {
     return (
@@ -24,9 +27,11 @@ const App = (props) => {
           <Header />
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/profile" />} />
-            <Route path="/profile" render={() => <Profile />} />
+            <Route path="/profile/:userId?" render={() => <Profile />} />
             <Route path="/messages" render={() => <Dialogs />} />
             <Route path="/contacts" render={() => <Contacts />} />
+            <Route path="/warning" render={() => <LoginWarning />} />
+            <Route path="*" render={() => <Page404 />} />
           </Switch>
         </main>
       </div>

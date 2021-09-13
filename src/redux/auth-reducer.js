@@ -1,4 +1,4 @@
-import { authApi, securityApi } from "../api/api";
+import { authApi, profileApi, securityApi } from "../api/api";
 
 const initialState = {
   isAuth: false,
@@ -6,6 +6,8 @@ const initialState = {
   login: null,
   email: null,
   captcha: null,
+  name: null,
+  photoSmall: null,
 };
 
 // actions
@@ -13,6 +15,8 @@ const initialState = {
 const SET_AUTH = "social/auth/SET_AUTH";
 const SET_AUTH_DATA = "social/auth/SET_AUTH_DATA";
 const SET_CAPTCHA = "social/auth/SET_CAPTCHA";
+const SET_NAME = "social/auth/SET_NAME";
+const SET_PHOTO_SMALL = "social/auth/SET_PHOTO_SMALL"; 
 
 // action creators
 
@@ -24,9 +28,21 @@ export const setAuthData = (id, login, email) => ({
   email,
   login,
 });
+export const setName = (name) => ({ type: SET_NAME, name });
+export const setPhotoSmall = (photo) => ({ type: SET_PHOTO_SMALL, photo });
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_PHOTO_SMALL:
+      return {
+        ...state,
+        photoSmall: action.photo,
+      }
+    case SET_NAME:
+      return {
+        ...state,
+        name: action.name,
+      }
     case SET_CAPTCHA:
       return {
         ...state,
@@ -94,5 +110,15 @@ export const getCaptcha = () => {
     }
   };
 };
+
+export const getUserData = () => {
+  return async (dispatch, getState) => {
+    const response = await profileApi.getProfile(getState().auth.id);
+    if (response) {
+      dispatch(setName(response.fullName));
+      dispatch(setPhotoSmall(response.photos.small));
+    }
+  }
+}
 
 export default authReducer;

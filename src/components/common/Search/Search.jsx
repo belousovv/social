@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import styles from "./Search.module.css";
 
 const Search = (props) => {
-  const { register, handleSubmit } = useForm();
+  const { watch, register, handleSubmit } = useForm();
   const onSubmit = () => {
-    // console.log(watch("input"));
+    props.handleSubmit(watch("input"));
   };
   return (
     <div className={styles.search}>

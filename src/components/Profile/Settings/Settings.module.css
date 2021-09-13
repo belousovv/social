@@ -1,0 +1,94 @@
+.settings {
+    margin-top: var(--section-mb-small);
+    background-color: var(--grey-bg);
+    border-radius: 10px;
+    padding: 20px 40px;
+    display: flex;
+}
+
+.label {
+    position: relative;
+}
+
+.fileInput {
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.imgBox {
+    width: 200px;
+    height: 200px;
+    background-color: #eaeeee;
+    cursor: pointer;
+    background-image: url("../../../img/choose-img.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100px 100px;
+    border-radius: 10px;
+    margin-bottom: 50px;
+}
+
+.form {
+    display: flex;
+    width: 100%;
+}
+
+.span {
+    display: inline-block;
+    width: 100px;
+    text-align: end;
+    margin-right: 20px;
+    font-weight: 700;
+}
+
+.contentWrapper {
+    width: 100%;
+}
+
+.inputWrapper {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    margin: 0;
+    padding: 0 20px;
+    border: none;
+    height: 30px;
+    background-color: #e9f0f4;
+    border-radius: 10px;
+    outline: none;
+    color: var(--default-text-color);
+    width: 100%;
+}
+
+.contacts {
+    margin-top: 30px;
+}
+
+.btn {
+    margin: 8px 0;
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    background-color: rgb(193, 231, 183);
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.btnRed {
+    background-color: rgb(231, 190, 183);
+}
+
+.left {
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

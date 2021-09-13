@@ -1,0 +1,28 @@
+.pagination {
+    color: var(--default-text-color);
+    max-width: 450px;
+    margin-right: 50px;
+}
+
+.arrows {
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    width: 40px;
+    height: 20px;
+    font-weight: 700;
+}
+
+.page, .activePage {
+    color: inherit;
+    background-color: transparent;
+    border: none;
+    width: 40px;
+    height: 20px;
+    border-radius: 5px;
+    font-weight: 700;
+}
+
+.activePage {
+    background-color: var(--button-bg);
+}

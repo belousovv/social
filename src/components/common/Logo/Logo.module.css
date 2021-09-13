@@ -1,0 +1,7 @@
+.text {
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+    font-family: 'Bubblegum Sans', cursive;
+    font-size: 28px;
+}

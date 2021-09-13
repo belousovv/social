@@ -4,6 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import appReducer from "./app-reducer";
 import dialogReducer from "./dialogs-reducer";
 import contactsReducer from "./contacts-reducer";
+import profileReducer from "./profile-reducer";
 
 const { createStore, combineReducers, applyMiddleware } = require("redux");
 
@@ -12,6 +13,7 @@ const reducers = combineReducers({
     auth: authReducer,
     dialogs: dialogReducer,
     contacts: contactsReducer,
+    profile: profileReducer,
 });
 
 const store = createStore(reducers,  composeWithDevTools(applyMiddleware(thunk)));

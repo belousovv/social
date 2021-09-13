@@ -1,7 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
+import { auth } from "../../redux/auth-selectors";
 import Friends from "../common/Friends/Friends";
 import LoginOrSuccess from "../common/LoginOrSuccess/LoginOrSuccess";
-import Search from "../common/Search/Search";
+import Logo from "../common/Logo/Logo";
 import styles from "./Sidebar.module.css";
 
 const Sidebar = (props) => {
@@ -9,17 +11,23 @@ const Sidebar = (props) => {
     <div className={styles.sidebar}>
       <ul className={styles.list}>
         <li className={styles.item}>
-          <Search />
+          <Logo />
         </li>
         <li className={styles.item}>
           <LoginOrSuccess />
         </li>
-        <li className={styles.item}>
-          <Friends />
-        </li>
+        {props.isAuth && (
+          <li className={styles.item}>
+            <Friends />
+          </li>
+        )}
       </ul>
     </div>
   );
 };
 
-export default Sidebar;
+const mapStateToProps = (state) => ({
+  isAuth: auth(state),
+});
+
+export default connect(mapStateToProps, null)(Sidebar);

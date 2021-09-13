@@ -1,18 +1,27 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { getFriends } from "../../../redux/contacts-reducer";
+import { selectFriends } from "../../../redux/contacts-selectors";
+import Friend from "./Friend/Friend";
 import styles from "./Friends.module.css";
 
 const Friends = (props) => {
-    return (
-        <section className={styles.Friends}>
-            <h6 className={styles.title}>Friends</h6>
-            <ul className={styles.list}>
-                <li className={styles.item}>Lena</li>
-                <li className={styles.item}>Dima</li>
-                <li className={styles.item}>Maks</li>
-                <li className={styles.item}>Roma</li>
-            </ul>
-        </section>
-    )
-}
+  useEffect(() => {
+    props.getFriends();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return (
+    <section className={styles.Friends}>
+      <h6 className={styles.title}>Friends</h6>
+      <ul className={styles.list}>
+        {props.friends &&
+          props.friends.map((el) => <Friend key={el.id} name={el.name} id={el.id} />)}
+      </ul>
+    </section>
+  );
+};
+const mapStateToProps = (state) => ({
+  friends: selectFriends(state),
+});
 
-export default Friends
+export default connect(mapStateToProps, { getFriends })(Friends);

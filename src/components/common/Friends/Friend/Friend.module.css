@@ -1,0 +1,24 @@
+.friend {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.friend:last-child {
+    margin-bottom: 0;
+}
+
+.name {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--default-text-color);
+}
+
+.btn {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+    color: #9d4e4e;
+    font-weight: 700;
+}

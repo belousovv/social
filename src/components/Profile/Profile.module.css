@@ -1,0 +1,58 @@
+.profile {
+  display: flex;
+  background-color: var(--grey-bg);
+  padding: 20px 40px;
+  border-radius: 10px;
+}
+
+.img {
+  width: 200px;
+  height: 200px;
+  margin-right: 30px;
+  border-radius: 10px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.infoItem {
+  margin-left: 20px;
+}
+
+.infoItem + .infoItem {
+  margin-top: 10px;
+}
+
+.status,
+.about {
+  font-style: italic;
+  margin-left: 10px;
+}
+
+.aboutTitle,
+.statusTitle {
+  font-weight: 700;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.editBtn {
+  margin-left: auto;
+  margin-top: auto;
+  padding: 8px 15px;
+  border: none;
+  background-color: #c0dbfa;
+  cursor: pointer;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-weight: 700;
+}

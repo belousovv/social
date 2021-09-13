@@ -24,6 +24,7 @@ const Contacts = (props) => {
               name={el.name}
               status={el.status}
               followed={el.followed}
+              id={el.id}
             />
           ))
         ) : (
