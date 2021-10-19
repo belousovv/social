@@ -9,14 +9,12 @@ const initialState = {
     {
       id: 1,
       name: "Vitalic",
-      message:
-        "Lorem ipsum, dolor sit amet.",
+      message: "Lorem ipsum, dolor sit amet.",
     },
     {
       id: 2,
       name: "Vitalic",
-      message:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
+      message: "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
     },
   ],
 };
@@ -27,11 +25,17 @@ const ADD_MESSAGE = "social/dialogs/ADD_MESSAGE";
 
 // action creators
 
-export const addMessage = (message) => ({ type: ADD_MESSAGE, message });
+export const addMessage = (message: TMessage): TAddMessageAction => ({
+  type: ADD_MESSAGE,
+  message,
+});
 
 //reducer
 
-const dialogReducer = (state = initialState, action) => {
+const dialogReducer = (
+  state: TInitialState = initialState,
+  action: TActions
+): TInitialState => {
   switch (action.type) {
     case ADD_MESSAGE:
       return {
@@ -46,3 +50,20 @@ const dialogReducer = (state = initialState, action) => {
 };
 
 export default dialogReducer;
+
+// Types
+
+type TInitialState = typeof initialState;
+
+type TMessage = {
+  id: number;
+  name: string;
+  message: string;
+};
+
+type TAddMessageAction = {
+  type: typeof ADD_MESSAGE;
+  message: TMessage;
+};
+
+type TActions = TAddMessageAction;

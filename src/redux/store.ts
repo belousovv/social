@@ -8,7 +8,7 @@ import profileReducer from "./profile-reducer";
 
 const { createStore, combineReducers, applyMiddleware } = require("redux");
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
     dialogs: dialogReducer,
@@ -16,8 +16,13 @@ const reducers = combineReducers({
     profile: profileReducer,
 });
 
-const store = createStore(reducers,  composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(rootReducer,  composeWithDevTools(applyMiddleware(thunk)));
 
 export default store;
 
+//@ts-ignore
 window.store = store;
+
+// Types
+
+export type TRootState = ReturnType<typeof rootReducer>;

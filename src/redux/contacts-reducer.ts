@@ -1,13 +1,15 @@
+import { ThunkAction } from "redux-thunk";
 import { followApi, usersApi } from "../api/api";
+import { TRootState } from "./store";
 
 const initialState = {
   page: 1,
   count: 8,
-  contacts: null,
-  totalCountUsers: null,
+  contacts: null as null | Array<TUser>,
+  totalCountUsers: null as null | number,
   portionSize: 8,
-  followingProcess: [],
-  friends: null,
+  followingProcess: [] as Array<number>,
+  friends: null as null | Array<TUser>,
 };
 
 // actions
@@ -22,24 +24,47 @@ const SET_FRIENDS = "social/contacts/SET_FRIENDS";
 
 // action creators
 
-export const setContacts = (contacts) => ({ type: SET_CONTACTS, contacts });
-export const setTotalCountUsers = (totalCountUsers) => ({
+export const setContacts = (contacts: Array<TUser>): TSetContactsAction => ({
+  type: SET_CONTACTS,
+  contacts,
+});
+export const setTotalCountUsers = (
+  totalCountUsers: number
+): TSetTotalCountUsersAction => ({
   type: SET_TOTAL_COUNT_USERS,
   totalCountUsers,
 });
-export const setPage = (page) => ({ type: SET_PAGE, page });
-export const setFollow = (id) => ({ type: SET_FOLLOW, id });
-export const setUnfollow = (id) => ({ type: SET_UNFOLLOW, id });
-export const setFollowingProcess = (state, id) => ({
+export const setPage = (page: number): TSetPageAction => ({
+  type: SET_PAGE,
+  page,
+});
+export const setFollow = (id: number): TSetFollowAction => ({
+  type: SET_FOLLOW,
+  id,
+});
+export const setUnfollow = (id: number): TSetUnfollowAction => ({
+  type: SET_UNFOLLOW,
+  id,
+});
+export const setFollowingProcess = (
+  state: boolean,
+  id: number
+): TSetFollowingProcessAction => ({
   type: FOLLOWING_PROCESS,
   state,
   id,
 });
-export const setFriends = (friends) => ({ type: SET_FRIENDS, friends });
+export const setFriends = (friends: Array<TUser>): TSetFriendsAction => ({
+  type: SET_FRIENDS,
+  friends,
+});
 
 // reducer
 
-const contactsReducer = (state = initialState, action) => {
+const contactsReducer = (
+  state = initialState,
+  action: TActions
+): TInitialState => {
   switch (action.type) {
     case SET_FRIENDS:
       return {
@@ -56,7 +81,7 @@ const contactsReducer = (state = initialState, action) => {
     case SET_FOLLOW:
       return {
         ...state,
-        contacts: state.contacts.map((contact) => {
+        contacts: state.contacts!.map((contact) => {
           if (contact.id === action.id) {
             return { ...contact, followed: true };
           } else {
@@ -67,7 +92,7 @@ const contactsReducer = (state = initialState, action) => {
     case SET_UNFOLLOW:
       return {
         ...state,
-        contacts: state.contacts.map((contact) => {
+        contacts: state.contacts!.map((contact) => {
           if (contact.id === action.id) {
             return { ...contact, followed: false };
           } else {
@@ -99,14 +124,14 @@ const contactsReducer = (state = initialState, action) => {
 
 // thunks
 
-export const getFriends = () => {
+export const getFriends = (): TThunk => {
   return async (dispatch) => {
     const response = await usersApi.getFriends();
     dispatch(setFriends(response.items));
   };
 };
 
-export const getContacts = () => {
+export const getContacts = (): TThunk => {
   return async (dispatch, getState) => {
     const response = await usersApi.getContacts(
       getState().contacts.count,
@@ -117,14 +142,14 @@ export const getContacts = () => {
   };
 };
 
-export const getContactsByName = (name) => {
+export const getContactsByName = (name: string): TThunk => {
   return async (dispatch) => {
     const response = await usersApi.getContactsByName(name);
     dispatch(setContacts(response.items));
-  }
-}
+  };
+};
 
-export const changePage = (page) => {
+export const changePage = (page: number): TThunk => {
   return async (dispatch, getState) => {
     const response = await usersApi.getContacts(
       getState().contacts.count,
@@ -135,7 +160,7 @@ export const changePage = (page) => {
   };
 };
 
-export const follow = (id) => {
+export const follow = (id: number): TThunk => {
   return async (dispatch) => {
     dispatch(setFollowingProcess(true, id));
     const response = await followApi.follow(id);
@@ -147,7 +172,7 @@ export const follow = (id) => {
   };
 };
 
-export const unfollow = (id) => {
+export const unfollow = (id: number): TThunk => {
   return async (dispatch) => {
     dispatch(setFollowingProcess(true, id));
     const response = await followApi.unfollow(id);
@@ -160,3 +185,62 @@ export const unfollow = (id) => {
 };
 
 export default contactsReducer;
+
+// Types
+
+export type TUser = {
+  id: number;
+  name: string;
+  status: string;
+  followed: boolean;
+  photos: { small: string | null; large: string | null };
+};
+
+type TInitialState = typeof initialState;
+
+type TSetContactsAction = {
+  type: typeof SET_CONTACTS;
+  contacts: Array<TUser>;
+};
+
+type TSetTotalCountUsersAction = {
+  type: typeof SET_TOTAL_COUNT_USERS;
+  totalCountUsers: number;
+};
+
+type TSetPageAction = {
+  type: typeof SET_PAGE;
+  page: number;
+};
+
+type TSetFollowAction = {
+  type: typeof SET_FOLLOW;
+  id: number;
+};
+
+type TSetUnfollowAction = {
+  type: typeof SET_UNFOLLOW;
+  id: number;
+};
+
+type TSetFollowingProcessAction = {
+  type: typeof FOLLOWING_PROCESS;
+  state: boolean;
+  id: number;
+};
+
+type TSetFriendsAction = {
+  type: typeof SET_FRIENDS;
+  friends: Array<TUser>;
+};
+
+type TActions =
+  | TSetContactsAction
+  | TSetTotalCountUsersAction
+  | TSetPageAction
+  | TSetFollowAction
+  | TSetUnfollowAction
+  | TSetFollowingProcessAction
+  | TSetFriendsAction;
+
+type TThunk = ThunkAction<Promise<void>, TRootState, {}, TActions>;
