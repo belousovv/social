@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./LoginWarning.module.css";
 
-const LoginWarning = () => {
+const LoginWarning: React.FC = () => {
+
   return (
     <div className={styles.loginWarning}>
       <h6 className={styles.warning}>

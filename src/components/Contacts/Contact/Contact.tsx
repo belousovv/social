@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 import { follow, unfollow } from "../../../redux/contacts-reducer";
 import { selectFollowingProcess } from "../../../redux/contacts-selectors";
 import { NavLink } from "react-router-dom";
+import { TRootState } from "../../../redux/store";
 
-const Contact = (props) => {
+const Contact: React.FC<TProps> = (props) => {
   return (
     <div className={styles.contact}>
       <div className={styles.content}>
@@ -47,8 +48,29 @@ const Contact = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: TRootState) => ({
   followingProcess: selectFollowingProcess(state),
 });
 
-export default connect(mapStateToProps, { follow, unfollow })(Contact);
+export default connect<TMstp, TMdtp, {}, TRootState>(mapStateToProps, { follow, unfollow })(Contact);
+
+// Types
+
+type TMstp = {
+  followingProcess: Array<number>;
+}
+
+type TMdtp = {
+  follow: (id: number) => void;
+  unfollow: (id: number) => void;
+}
+
+type TOwn = {
+  img: string | null;
+  name: string;
+  status: string;
+  followed: boolean;
+  id: number;
+}
+
+type TProps = TMstp & TMdtp & TOwn;

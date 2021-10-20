@@ -12,7 +12,7 @@ const INITIALIZE_SUCCESS = "social/app/INITIALIZE_SUCCESS";
 
 // action creators
 
-const initializeSuccess = (): TInitializeSuccessAction => ({ type: INITIALIZE_SUCCESS });
+const initializeSuccess = (payload: boolean): TInitializeSuccessAction => ({ type: INITIALIZE_SUCCESS, payload });
 
 // reducer
 
@@ -21,7 +21,7 @@ const appReducer = (state: TInitialState = initialState, action: TActions): TIni
     case INITIALIZE_SUCCESS:
       return {
         ...state,
-        isInitialized: true,
+        isInitialized: action.payload,
       };
     default:
       return {
@@ -34,8 +34,9 @@ const appReducer = (state: TInitialState = initialState, action: TActions): TIni
 
 export const startInitialize = (): TThunks => {
   return async (dispatch) => {
+    dispatch(initializeSuccess(false))
     await dispatch(getAuth());
-    dispatch(initializeSuccess());
+    dispatch(initializeSuccess(true));
   };
 };
 
@@ -48,7 +49,8 @@ type TThunks = ThunkAction<Promise<void>,TRootState, {}, TActions>;
 type TActions = TInitializeSuccessAction;
 
 type TInitializeSuccessAction = {
-  type: typeof INITIALIZE_SUCCESS
+  type: typeof INITIALIZE_SUCCESS;
+  payload: boolean;
 }
 
 type TInitialState = typeof initialState;

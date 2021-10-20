@@ -13,13 +13,14 @@ import Dialogs from "./components/Dialogs/Dialogs";
 import Contacts from "./components/Contacts/Contacts";
 import LoginWarning from "./components/LoginWarning/LoginWarning";
 import Page404 from "./components/Page404/Page404";
+import { TRootState } from "./redux/store";
 
-const App = (props) => {
+const App: React.FC<TProps> = (props) => {
   useEffect(() => {
     props.startInitialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  if (props.isInitialize) {
+  if (props.isInitialized) {
     return (
       <div className={styles.app}>
         <Sidebar />
@@ -41,7 +42,19 @@ const App = (props) => {
   }
 };
 
-const mapStateToProps = (state) => ({
-  isInitialize: getInitialized(state),
+const mapStateToProps = (state: TRootState) => ({
+  isInitialized: getInitialized(state),
 });
-export default connect(mapStateToProps, { startInitialize })(App);
+export default connect<TMstp, TMdtp, {}, TRootState>(mapStateToProps, { startInitialize })(App);
+
+// Types 
+
+type TProps = TMstp & TMdtp
+
+type TMstp = {
+  isInitialized: boolean;
+}
+
+type TMdtp = {
+  startInitialize: () => void
+}

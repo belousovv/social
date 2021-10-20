@@ -4,8 +4,9 @@ import Search from "../../common/Search/Search";
 import Pagination from "../../common/Pagination/Pagination";
 import { connect } from "react-redux";
 import { getContactsByName } from "../../../redux/contacts-reducer";
+import { TRootState } from "../../../redux/store";
 
-const SearchBar = (props) => {
+const SearchBar: React.FC<TMdtp> = (props) => {
   return (
     <div className={styles.searchbar}>
       <Pagination />
@@ -14,4 +15,12 @@ const SearchBar = (props) => {
   );
 };
 
-export default connect(null, { getContactsByName })(SearchBar);
+export default connect<{}, TMdtp, {}, TRootState>(null, { getContactsByName })(
+  SearchBar
+);
+
+// Types
+
+type TMdtp = {
+  getContactsByName: (name: string) => void;
+};
