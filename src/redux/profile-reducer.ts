@@ -1,6 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 import { profileApi } from "../api/api";
-import { TRootState } from "./store";
+import { InferValueType, TRootState } from "./store";
 
 const initialState = {
   profile: null as null | TProfile,
@@ -16,22 +16,28 @@ const UPDATE_PROFILE = "social/profile/UPDATE_PROFILE";
 
 // actions creators
 
-export const setStatus = (status: string): TSetStatusAction => ({
-  type: SET_STATUS,
-  status,
-});
-export const setProfile = (profile: TProfile): TSetProfileAction => ({
-  type: SET_PROFILE,
-  profile,
-});
-export const setPhotos = (photos: TPhotos): TSetPhotosAction => ({
-  type: SET_PHOTOS,
-  photos,
-});
-export const updateProfile = (profile: TProfile): TUpdateProfileAction => ({
-  type: UPDATE_PROFILE,
-  profile,
-});
+export const actions = {
+  setStatus: (status: string) =>
+    ({
+      type: SET_STATUS,
+      status,
+    } as const),
+  setProfile: (profile: TProfile) =>
+    ({
+      type: SET_PROFILE,
+      profile,
+    } as const),
+  setPhotos: (photos: TPhotos) =>
+    ({
+      type: SET_PHOTOS,
+      photos,
+    } as const),
+  updateProfile: (profile: TProfile) =>
+    ({
+      type: UPDATE_PROFILE,
+      profile,
+    } as const),
+};
 
 // reducer
 
@@ -48,7 +54,6 @@ const profileReducer = (
     case SET_PHOTOS:
       return {
         ...state,
-        //TODO: TProfile can be wrong, profile-image do not auto-update after set
         profile: { ...state.profile, photos: action.photos } as TProfile,
       };
     case SET_STATUS:
@@ -74,7 +79,7 @@ export const getStatus = (id: number): TThunk => {
   return async (dispatch) => {
     const response = await profileApi.getStatus(id);
     if (response) {
-      dispatch(setStatus(response));
+      dispatch(actions.setStatus(response));
     }
   };
 };
@@ -83,7 +88,7 @@ export const getProfile = (id: number): TThunk => {
   return async (dispatch) => {
     const response = await profileApi.getProfile(id);
     if (response) {
-      dispatch(setProfile(response));
+      dispatch(actions.setProfile(response));
     }
   };
 };
@@ -92,16 +97,20 @@ export const putStatus = (status: string): TThunk => {
   return async (dispatch) => {
     const response = await profileApi.putStatus({ status });
     if (response.resultCode === 0) {
-      dispatch(setStatus(status));
+      dispatch(actions.setStatus(status));
     }
   };
 };
 
-export const putPhoto = (photo: string): TThunk => {
-  return async (dispatch) => {
+export const putPhoto = (photo: any): TThunk => {
+  return async (dispatch, getState) => {
     const response = await profileApi.putPhoto(photo);
     if (response.resultCode === 0) {
-      dispatch(setPhotos(response.data));
+      const id = getState().auth.id;
+      const responce = await profileApi.getProfile(id);
+      if (responce) {
+        dispatch(actions.setProfile(responce));
+      }
     }
   };
 };
@@ -110,7 +119,7 @@ export const putProfile = (profile: TProfile): TThunk => {
   return async (dispatch) => {
     const response = await profileApi.putProfile(profile);
     if (response.resultCode === 0) {
-      dispatch(updateProfile(profile));
+      dispatch(actions.updateProfile(profile));
     }
   };
 };
@@ -126,7 +135,7 @@ type TPhotos = {
   large: string | null;
 };
 
-type TContacts = {
+export type TContacts = {
   github: string | null;
   vk: string | null;
   facebook: string | null;
@@ -134,42 +143,19 @@ type TContacts = {
   twitter: string | null;
   website: string | null;
   youtube: string | null;
-  mainLink: string | null;
+  mainLink?: string | null;
 };
 
-type TProfile = {
+export type TProfile = {
   userId: number;
   lookingForAJob: boolean;
-  lookingForAJobDescription: boolean;
+  lookingForAJobDescription: string;
   fullName: string;
   contacts: TContacts;
-  photos: TPhotos;
+  photos?: TPhotos;
+  aboutMe?: string;
 };
 
-type TSetStatusAction = {
-  type: typeof SET_STATUS;
-  status: string;
-};
-
-type TSetProfileAction = {
-  type: typeof SET_PROFILE;
-  profile: TProfile;
-};
-
-type TSetPhotosAction = {
-  type: typeof SET_PHOTOS;
-  photos: TPhotos;
-};
-
-type TUpdateProfileAction = {
-  type: typeof UPDATE_PROFILE;
-  profile: TProfile;
-};
-
-type TActions =
-  | TSetStatusAction
-  | TSetProfileAction
-  | TSetPhotosAction
-  | TUpdateProfileAction;
+type TActions = ReturnType<InferValueType<typeof actions>>;
 
 type TThunk = ThunkAction<Promise<void>, TRootState, {}, TActions>;

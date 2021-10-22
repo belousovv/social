@@ -5,13 +5,15 @@ import {
   putPhoto,
   putProfile,
   putStatus,
+  TProfile,
 } from "../../../redux/profile-reducer";
 import styles from "./Settings.module.css";
 import cn from "classnames";
 import { selectProfile, selectStatus } from "../../../redux/profile-selectors";
 import { selectAuthId } from "../../../redux/auth-selectors";
+import { TRootState } from "../../../redux/store";
 
-const Settings = ({ setToggleSettings, ...props }) => {
+const Settings: React.FC<TProps> = ({ setToggleSettings, ...props }) => {
   const contacts = [
     "github",
     "vk",
@@ -22,8 +24,10 @@ const Settings = ({ setToggleSettings, ...props }) => {
     "youtube",
   ];
 
-  const updatePhoto = (e) => {
-    props.putPhoto(e.currentTarget.files[0]);
+  const updatePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.currentTarget.files) {
+      props.putPhoto(e.currentTarget.files[0]);
+    }
   };
 
   const onConfirm = () => {
@@ -81,7 +85,7 @@ const Settings = ({ setToggleSettings, ...props }) => {
             <input
               className={styles.input}
               type="text"
-              {...register("name", {required: true})}
+              {...register("name", { required: true })}
               defaultValue={props.profile.fullName}
             />
           </div>
@@ -99,7 +103,7 @@ const Settings = ({ setToggleSettings, ...props }) => {
             <input
               className={styles.input}
               type="text"
-              {...register("about", {required: true})}
+              {...register("about", { required: true })}
               defaultValue={props.profile.aboutMe}
             />
           </div>
@@ -111,6 +115,7 @@ const Settings = ({ setToggleSettings, ...props }) => {
                   className={styles.input}
                   type="text"
                   {...register(el)}
+                  //@ts-ignore
                   defaultValue={props.profile.contacts[el]}
                 />
               </div>
@@ -122,12 +127,34 @@ const Settings = ({ setToggleSettings, ...props }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: TRootState) => ({
   profile: selectProfile(state),
   status: selectStatus(state),
   userId: selectAuthId(state),
 });
 
-export default connect(mapStateToProps, { putPhoto, putStatus, putProfile })(
-  Settings
-);
+export default connect<TMstp, TMdtp, TOwn, TRootState>(mapStateToProps, {
+  putPhoto,
+  putStatus,
+  putProfile,
+})(Settings);
+
+// Types
+
+type TMstp = {
+  profile: TProfile;
+  status: string;
+  userId: number;
+};
+
+type TMdtp = {
+  putPhoto: (files: any) => void;
+  putStatus: (status: string) => void;
+  putProfile: (profile: TProfile) => void;
+};
+
+type TOwn = {
+  setToggleSettings: (value: boolean) => void;
+};
+
+type TProps = TMstp & TMdtp & TOwn;

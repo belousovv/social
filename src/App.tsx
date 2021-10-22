@@ -14,8 +14,10 @@ import Contacts from "./components/Contacts/Contacts";
 import LoginWarning from "./components/LoginWarning/LoginWarning";
 import Page404 from "./components/Page404/Page404";
 import { TRootState } from "./redux/store";
+import LoginPage from "./components/LoginPage/LoginPage";
 
 const App: React.FC<TProps> = (props) => {
+
   useEffect(() => {
     props.startInitialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,7 +29,8 @@ const App: React.FC<TProps> = (props) => {
         <main className={styles.main}>
           <Header />
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/profile" />} />
+            <Route exact path="/" render={() => <Redirect to="/login" />} />
+            <Route path="/login" render={()=> <LoginPage />} />
             <Route path="/profile/:userId?" render={() => <Profile />} />
             <Route path="/messages" render={() => <Dialogs />} />
             <Route path="/contacts" render={() => <Contacts />} />

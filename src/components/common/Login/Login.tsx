@@ -3,9 +3,10 @@ import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import { login } from "../../../redux/auth-reducer";
 import { captcha } from "../../../redux/auth-selectors";
+import { TRootState } from "../../../redux/store";
 import styles from "./Login.module.css";
 
-const Login = (props) => {
+const Login: React.FC<TProps> = (props) => {
   const { register, watch, handleSubmit } = useForm();
   const onSubmit = () => {
     const data = {
@@ -51,7 +52,19 @@ const Login = (props) => {
     </form>
   );
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: TRootState) => ({
   captcha: captcha(state),
 });
-export default connect(mapStateToProps, { login })(Login);
+export default connect<TMstp, TMdtp, {}, TRootState>(mapStateToProps, { login })(Login);
+
+// Types
+
+type TMstp = {
+  captcha: string;
+}
+
+type TMdtp = {
+  login: (email: string, password: string, rememberMe: boolean, captcha: string) => void;
+}
+
+type TProps = TMstp & TMdtp;

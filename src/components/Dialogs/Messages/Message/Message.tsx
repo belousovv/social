@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Message.module.css";
 
-const Message = ({ img, name, text }) => {
+const Message: React.FC<TProps> = ({ img, name, text }) => {
   return (
     <div className={styles.message}>
       <img className={styles.img} src={img} alt="avatar" />
@@ -14,3 +14,11 @@ const Message = ({ img, name, text }) => {
 };
 
 export default Message;
+
+// Types
+
+type TProps = {
+  img: string;
+  name: string;
+  text: string;
+}

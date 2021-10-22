@@ -26,3 +26,5 @@ window.store = store;
 // Types
 
 export type TRootState = ReturnType<typeof rootReducer>;
+
+export type InferValueType<T> = T extends {[keys: string]: infer U}? U : never;

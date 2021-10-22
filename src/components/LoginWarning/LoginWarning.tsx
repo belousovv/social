@@ -1,7 +1,16 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router";
+import { auth } from "../../redux/auth-selectors";
 import styles from "./LoginWarning.module.css";
 
 const LoginWarning: React.FC = () => {
+
+  const isAuth = useSelector(auth);
+
+  if (isAuth) {
+    return <Redirect to="/profile" />
+  }
 
   return (
     <div className={styles.loginWarning}>

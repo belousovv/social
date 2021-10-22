@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import styles from "./Search.module.css";
 
-const Search = (props) => {
+const Search: React.FC<TOwn> = (props) => {
   const { watch, register, handleSubmit } = useForm();
   const onSubmit = () => {
     props.handleSubmit(watch("input"));
@@ -22,3 +22,9 @@ const Search = (props) => {
 };
 
 export default Search;
+
+// Types
+
+type TOwn = {
+  handleSubmit: (input: string) => void;
+}

@@ -1,6 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 import { authApi, profileApi, securityApi } from "../api/api";
-import { TRootState } from "./store";
+import { InferValueType, TRootState } from "./store";
 
 const initialState = {
   isAuth: false,
@@ -22,32 +22,37 @@ const SET_PHOTO_SMALL = "social/auth/SET_PHOTO_SMALL";
 
 // action creators
 
-export const setCaptcha = (captcha: string): TSetCaptchaAction => ({
-  type: SET_CAPTCHA,
-  captcha,
-});
-export const setAuth = (state: boolean): TSetAuthAction => ({
-  type: SET_AUTH,
-  state,
-});
-export const setAuthData = (
-  id: number,
-  login: string,
-  email: string
-): TSetAuthDataAction => ({
-  type: SET_AUTH_DATA,
-  id,
-  email,
-  login,
-});
-export const setName = (name: string): TSetNameAction => ({
-  type: SET_NAME,
-  name,
-});
-export const setPhotoSmall = (photo: string): TSetPhotoSmallAction => ({
-  type: SET_PHOTO_SMALL,
-  photo,
-});
+export const actions = {
+  setCaptcha: (captcha: string) =>
+    ({
+      type: SET_CAPTCHA,
+      captcha,
+    } as const),
+  setAuth: (state: boolean) =>
+    ({
+      type: SET_AUTH,
+      state,
+    } as const),
+  setAuthData: (id: number, login: string, email: string) =>
+    ({
+      type: SET_AUTH_DATA,
+      id,
+      email,
+      login,
+    } as const),
+  setName: (name: string) =>
+    ({
+      type: SET_NAME,
+      name,
+    } as const),
+  setPhotoSmall: (photo: string) =>
+    ({
+      type: SET_PHOTO_SMALL,
+      photo,
+    } as const),
+};
+
+// reducer
 
 const authReducer = (
   state: TInitialState = initialState,
@@ -94,12 +99,16 @@ export const getAuth = (): TThunks => {
   return async (dispatch) => {
     const response = await authApi.getAuth();
     if (response.resultCode === 0) {
-      dispatch(setAuth(true));
+      dispatch(actions.setAuth(true));
       dispatch(
-        setAuthData(response.data.id, response.data.login, response.data.email)
+        actions.setAuthData(
+          response.data.id,
+          response.data.login,
+          response.data.email
+        )
       );
     } else {
-      dispatch(setAuth(false));
+      dispatch(actions.setAuth(false));
     }
   };
 };
@@ -132,7 +141,7 @@ export const getCaptcha = (): TThunks => {
   return async (dispatch) => {
     const response = await securityApi.getCaptcha();
     if (response) {
-      dispatch(setCaptcha(response.url));
+      dispatch(actions.setCaptcha(response.url));
     }
   };
 };
@@ -141,8 +150,10 @@ export const getUserData = (): TThunks => {
   return async (dispatch, getState) => {
     const response = await profileApi.getProfile(getState().auth.id);
     if (response) {
-      dispatch(setName(response.fullName));
-      dispatch(setPhotoSmall(response.photos.small));
+      dispatch(actions.setName(response.fullName));
+      if (response.photos && response.photos.small) {
+        dispatch(actions.setPhotoSmall(response.photos.small));
+      }
     }
   };
 };
@@ -153,38 +164,6 @@ export default authReducer;
 
 type TInitialState = typeof initialState;
 
-type TSetCaptchaAction = {
-  type: typeof SET_CAPTCHA;
-  captcha: string;
-};
-
-type TSetAuthAction = {
-  type: typeof SET_AUTH;
-  state: boolean;
-};
-
-type TSetAuthDataAction = {
-  type: typeof SET_AUTH_DATA;
-  id: number;
-  email: string;
-  login: string;
-};
-
-type TSetNameAction = {
-  type: typeof SET_NAME;
-  name: string;
-};
-
-type TSetPhotoSmallAction = {
-  type: typeof SET_PHOTO_SMALL;
-  photo: string;
-};
-
-type TActions =
-  | TSetCaptchaAction
-  | TSetAuthAction
-  | TSetAuthDataAction
-  | TSetNameAction
-  | TSetPhotoSmallAction;
+type TActions = ReturnType<InferValueType<typeof actions>>;
 
 type TThunks = ThunkAction<Promise<void>, TRootState, {}, TActions>;

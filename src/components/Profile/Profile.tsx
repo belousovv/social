@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Redirect, withRouter } from "react-router";
+import { Redirect, RouteComponentProps, withRouter } from "react-router";
 import { compose } from "redux";
-import { getProfile, getStatus } from "../../redux/profile-reducer";
+import { getProfile, getStatus, TProfile } from "../../redux/profile-reducer";
 import { selectProfile, selectStatus } from "../../redux/profile-selectors";
 import styles from "./Profile.module.css";
 import Preloader from "../common/Preloader/Preloader";
@@ -10,8 +10,9 @@ import Social from "../common/Socials/Social";
 import defaultAvatar from "../../img/default-avatar.png";
 import { auth, selectAuthId } from "../../redux/auth-selectors";
 import Settings from "./Settings/Settings";
+import { TRootState } from "../../redux/store";
 
-const Profile = (props) => {
+const Profile: React.FC<TMstp & TMdtp & RouteComponentProps<TWithRouter>> = (props) => {
   const [toggleSettings, setToggleSettings] = useState(false);
 
   const onSettingsClick = () => {
@@ -22,10 +23,10 @@ const Profile = (props) => {
     let userId = props.match.params.userId
       ? props.match.params.userId
       : props.authId;
-    props.getStatus(userId);
-    props.getProfile(userId);
+    props.getStatus(Number(userId));
+    props.getProfile(Number(userId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.match.params.userId]);
+  }, [props.match.params.userId, props.authId]);
 
   if (!props.profile) {
     return <Preloader />;
@@ -41,8 +42,8 @@ const Profile = (props) => {
         <img
           className={styles.img}
           src={
-            props.profile.photos.large
-              ? props.profile.photos.large
+            props.profile.photos!.large
+              ? props.profile.photos!.large
               : defaultAvatar
           }
           alt="avatar"
@@ -77,7 +78,7 @@ const Profile = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: TRootState) => ({
   status: selectStatus(state),
   profile: selectProfile(state),
   authId: selectAuthId(state),
@@ -85,6 +86,33 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { getStatus, getProfile }),
+  connect<TMstp, TMdtp, {}, TRootState>(mapStateToProps, { getStatus, getProfile }),
   withRouter
-)(Profile);
+)(Profile) as React.ComponentType;
+
+
+//Types
+
+type TMstp = {
+  status: string;
+  profile: TProfile;
+  authId: number;
+  isAuth: boolean;
+}
+
+type TMdtp = {
+  getStatus: (userId: number) => void;
+  getProfile: (userId: number) => void;
+}
+
+type TWithRouter = {
+  userId: string;
+}
+
+// type TWithRouter = {
+//   match: {
+//     params: {
+//       userId: number
+//     }
+//   }
+// }

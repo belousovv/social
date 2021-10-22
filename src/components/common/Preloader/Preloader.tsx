@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./Preloader.module.css";
 
-const Preloader = () => {
-  return <div>loading...</div>;
+const Preloader: React.FC = () => {
+  return <div className={styles.preloader}>loading...</div>;
 };
 
 export default Preloader;

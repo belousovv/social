@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import withTime from "../../../hoc/withTime";
-import { addMessage } from "../../../redux/dialogs-reducer";
+import { actions, TMessage } from "../../../redux/dialogs-reducer";
+import { TRootState } from "../../../redux/store";
 import styles from "./MessageForm.module.css";
 
-const MessageForm = (props) => {
+const MessageForm: React.FC<TMdtp & TWithTime> = (props) => {
   const { register, watch, handleSubmit, reset } = useForm();
   const onSubmit = () => {
     props.addMessage({ id: props.getTime(), name: "Vitalic", message: watch("textarea") });
@@ -21,4 +22,17 @@ const MessageForm = (props) => {
     </form>
   );
 };
-export default compose(withTime, connect(null, { addMessage }))(MessageForm);
+
+const {addMessage} = actions;
+
+export default compose(withTime, connect<null, TMdtp, {}, TRootState>(null, { addMessage }))(MessageForm);
+
+// Types
+
+type TWithTime = {
+  getTime: () => number;
+}
+
+type TMdtp = {
+  addMessage: (message: TMessage) => void
+}

@@ -1,3 +1,5 @@
+import { InferValueType } from "./store";
+
 const initialState = {
   messages: [
     {
@@ -25,10 +27,12 @@ const ADD_MESSAGE = "social/dialogs/ADD_MESSAGE";
 
 // action creators
 
-export const addMessage = (message: TMessage): TAddMessageAction => ({
-  type: ADD_MESSAGE,
-  message,
-});
+export const actions = {
+  addMessage: (message: TMessage) => ({
+    type: ADD_MESSAGE,
+    message,
+  } as const),
+}
 
 //reducer
 
@@ -55,15 +59,10 @@ export default dialogReducer;
 
 type TInitialState = typeof initialState;
 
-type TMessage = {
+export type TMessage = {
   id: number;
   name: string;
   message: string;
 };
 
-type TAddMessageAction = {
-  type: typeof ADD_MESSAGE;
-  message: TMessage;
-};
-
-type TActions = TAddMessageAction;
+type TActions = ReturnType<InferValueType<typeof actions>>;

@@ -3,7 +3,7 @@ import Messanger from "./Messanger/Messanger";
 import styles from "./Messangers.module.css";
 import defaultAvatar from "../../../img/default-avatar.png";
 
-const Messangers = (props) => {
+const Messangers: React.FC = () => {
   return (
     <div className={styles.messangers}>
       <ul className={styles.list}>

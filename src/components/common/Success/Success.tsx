@@ -5,13 +5,15 @@ import { connect } from "react-redux";
 import { getUserData, logout } from "../../../redux/auth-reducer";
 import Dropdown from "../Dropdown/Dropdown";
 import { selectName, selectPhotoSmall } from "../../../redux/auth-selectors";
+import { TRootState } from "../../../redux/store";
 
-const Success = (props) => {
+const Success: React.FC<TProps> = (props) => {
   const onLogoutSubmit = () => {
     props.logout();
   };
   useEffect(()=>{
     props.getUserData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className={styles.success}>
@@ -28,8 +30,22 @@ const Success = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: TRootState) => ({
   avatar: selectPhotoSmall(state),
   name: selectName(state),
 });
-export default connect(mapStateToProps, { logout, getUserData })(Success);
+export default connect<TMstp, TMdtp, {}, TRootState>(mapStateToProps, { logout, getUserData })(Success);
+
+// Types 
+
+type TMstp = {
+  avatar: string;
+  name: string;
+}
+
+type TMdtp = {
+  logout: () => void;
+  getUserData: () => void;
+}
+
+type TProps = TMstp & TMdtp;
