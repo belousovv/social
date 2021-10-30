@@ -1,6 +1,5 @@
-import { ThunkAction } from "redux-thunk";
 import { followApi, usersApi } from "../api/api";
-import { InferValueType, TRootState } from "./store";
+import { InferValueType, TBaseThunk } from "./store";
 
 const initialState = {
   page: 1,
@@ -204,4 +203,4 @@ type TInitialState = typeof initialState;
 
 type TActions = ReturnType<InferValueType<typeof actions>>;
 
-type TThunk = ThunkAction<Promise<void>, TRootState, {}, TActions>;
+type TThunk = TBaseThunk<TActions>;

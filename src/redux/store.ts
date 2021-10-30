@@ -1,10 +1,11 @@
 import authReducer from "./auth-reducer";
-import thunk from "redux-thunk";
+import thunk, { ThunkAction } from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import appReducer from "./app-reducer";
 import dialogReducer from "./dialogs-reducer";
 import contactsReducer from "./contacts-reducer";
 import profileReducer from "./profile-reducer";
+import { Action } from "redux";
 
 const { createStore, combineReducers, applyMiddleware } = require("redux");
 
@@ -28,3 +29,5 @@ window.store = store;
 export type TRootState = ReturnType<typeof rootReducer>;
 
 export type InferValueType<T> = T extends {[keys: string]: infer U}? U : never;
+
+export type TBaseThunk<T extends Action> = ThunkAction<Promise<void>, TRootState, {}, T>;

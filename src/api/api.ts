@@ -120,7 +120,7 @@ type TPutStatus = TLogout;
 type TPutPhoto = TLogout;
 type TPutProfile = TLogout;
 
-type TLogin = {
+export type TLogin = {
   resultCode: ResultCode | ResultCodeCaptcha;
   messages: Array<string>;
   data: {
@@ -128,7 +128,7 @@ type TLogin = {
   };
 };
 
-type TGetAuth = {
+export type TGetAuth = {
   resultCode: ResultCode;
   messages: Array<string>;
   data: {

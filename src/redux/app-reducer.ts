@@ -1,6 +1,5 @@
-import { ThunkAction } from "redux-thunk";
 import { getAuth } from "./auth-reducer";
-import { InferValueType, TRootState } from "./store";
+import { InferValueType, TBaseThunk } from "./store";
 
 const initialState = {
   isInitialized: false,
@@ -46,7 +45,7 @@ export default appReducer;
 
 // Types
 
-type TThunks = ThunkAction<Promise<void>,TRootState, {}, TActions>;
+type TThunks = TBaseThunk<TActions>;
 
 type TInitialState = typeof initialState;
 

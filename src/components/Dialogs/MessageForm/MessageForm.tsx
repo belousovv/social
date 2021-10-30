@@ -25,7 +25,7 @@ const MessageForm: React.FC<TMdtp & TWithTime> = (props) => {
 
 const {addMessage} = actions;
 
-export default compose(withTime, connect<null, TMdtp, {}, TRootState>(null, { addMessage }))(MessageForm);
+export default compose(withTime, connect<null, TMdtp, {}, TRootState>(null, { addMessage }))(MessageForm) as React.ComponentType;
 
 // Types
 

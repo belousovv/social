@@ -1,6 +1,5 @@
-import { ThunkAction } from "redux-thunk";
 import { profileApi } from "../api/api";
-import { InferValueType, TRootState } from "./store";
+import { InferValueType, TBaseThunk } from "./store";
 
 const initialState = {
   profile: null as null | TProfile,
@@ -158,4 +157,4 @@ export type TProfile = {
 
 type TActions = ReturnType<InferValueType<typeof actions>>;
 
-type TThunk = ThunkAction<Promise<void>, TRootState, {}, TActions>;
+type TThunk = TBaseThunk<TActions>;

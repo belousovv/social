@@ -30,7 +30,7 @@ const App: React.FC<TProps> = (props) => {
           <Header />
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/login" />} />
-            <Route path="/login" render={()=> <LoginPage />} />
+            <Route path="/login" render={() => <LoginPage />} />
             <Route path="/profile/:userId?" render={() => <Profile />} />
             <Route path="/messages" render={() => <Dialogs />} />
             <Route path="/contacts" render={() => <Contacts />} />
