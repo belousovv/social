@@ -1,11 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { actions } from "../../../redux/contacts-reducer";
 import styles from "./Search.module.css";
 
 const Search: React.FC<TOwn> = (props) => {
+  const dispatch = useDispatch();
   const { watch, register, handleSubmit } = useForm();
+
   const onSubmit = () => {
     props.handleSubmit(watch("input"));
+    dispatch(actions.setFilter(watch("input")));
   };
   return (
     <div className={styles.search}>

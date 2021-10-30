@@ -9,6 +9,9 @@ const initialState = {
   portionSize: 8,
   followingProcess: [] as Array<number>,
   friends: null as null | Array<TUser>,
+  filter: {
+    term: null,
+  } as TTerm,
 };
 
 // actions
@@ -20,46 +23,48 @@ const SET_FOLLOW = "social/contacts/SET_FOLLOW";
 const SET_UNFOLLOW = "social/contacts/SET_UNFOLLOW";
 const FOLLOWING_PROCESS = "social/contacts/FOLLOWING_PROCESS";
 const SET_FRIENDS = "social/contacts/SET_FRIENDS";
+const SET_FILTER = "social/contacts/SET_FILTER";
 
 // action creators
 
 export const actions = {
+  setFilter: (term: string) => ({ type: SET_FILTER, term } as const),
   setContacts: (contacts: Array<TUser>) =>
-    ({
-      type: SET_CONTACTS,
-      contacts,
-    } as const),
+  ({
+    type: SET_CONTACTS,
+    contacts,
+  } as const),
   setTotalCountUsers: (totalCountUsers: number) =>
-    ({
-      type: SET_TOTAL_COUNT_USERS,
-      totalCountUsers,
-    } as const),
+  ({
+    type: SET_TOTAL_COUNT_USERS,
+    totalCountUsers,
+  } as const),
   setPage: (page: number) =>
-    ({
-      type: SET_PAGE,
-      page,
-    } as const),
+  ({
+    type: SET_PAGE,
+    page,
+  } as const),
   setFollow: (id: number) =>
-    ({
-      type: SET_FOLLOW,
-      id,
-    } as const),
+  ({
+    type: SET_FOLLOW,
+    id,
+  } as const),
   setUnfollow: (id: number) =>
-    ({
-      type: SET_UNFOLLOW,
-      id,
-    } as const),
+  ({
+    type: SET_UNFOLLOW,
+    id,
+  } as const),
   setFollowingProcess: (state: boolean, id: number) =>
-    ({
-      type: FOLLOWING_PROCESS,
-      state,
-      id,
-    } as const),
+  ({
+    type: FOLLOWING_PROCESS,
+    state,
+    id,
+  } as const),
   setFriends: (friends: Array<TUser>) =>
-    ({
-      type: SET_FRIENDS,
-      friends,
-    } as const),
+  ({
+    type: SET_FRIENDS,
+    friends,
+  } as const),
 };
 
 // reducer
@@ -69,6 +74,11 @@ const contactsReducer = (
   action: TActions
 ): TInitialState => {
   switch (action.type) {
+    case SET_FILTER:
+      return {
+        ...state,
+        filter: { term: action.term }
+      };
     case SET_FRIENDS:
       return {
         ...state,
@@ -138,7 +148,8 @@ export const getContacts = (): TThunk => {
   return async (dispatch, getState) => {
     const response = await usersApi.getContacts(
       getState().contacts.count,
-      getState().contacts.page
+      getState().contacts.page,
+      getState().contacts.filter.term,
     );
     dispatch(actions.setContacts(response.items));
     dispatch(actions.setTotalCountUsers(response.totalCount));
@@ -156,7 +167,8 @@ export const changePage = (page: number): TThunk => {
   return async (dispatch, getState) => {
     const response = await usersApi.getContacts(
       getState().contacts.count,
-      page
+      page,
+      getState().contacts.filter.term
     );
     dispatch(actions.setContacts(response.items));
     dispatch(actions.setPage(page));
@@ -198,6 +210,10 @@ export type TUser = {
   followed: boolean;
   photos: { small: string | null; large: string | null };
 };
+
+type TTerm = {
+  term: null | string;
+}
 
 type TInitialState = typeof initialState;
 

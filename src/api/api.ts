@@ -35,9 +35,9 @@ export const securityApi = {
 };
 
 export const usersApi = {
-  getContacts(count: number, page: number) {
+  getContacts(count: number, page: number, term: string) {
     return instance
-      .get<TGetContacts>(`users?page=${page}&count=${count}`)
+      .get<TGetContacts>(`users?page=${page}&count=${count}` + (term && term))
       .then((response) => response.data);
   },
   getFriends() {
@@ -76,7 +76,7 @@ export const profileApi = {
       .get<TProfile>(`profile/${id}`)
       .then((response) => response.data);
   },
-  putStatus(status: {status: string}) {
+  putStatus(status: { status: string }) {
     return instance
       .put<TPutStatus>("/profile/status", status)
       .then((response) => response.data);
