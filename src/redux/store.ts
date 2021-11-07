@@ -6,8 +6,10 @@ import dialogReducer from "./dialogs-reducer";
 import contactsReducer from "./contacts-reducer";
 import profileReducer from "./profile-reducer";
 import { Action } from "redux";
+import chatReducer from "./chat-reducer";
+// const { createStore, combineReducers, applyMiddleware } = require("redux");
+import { createStore, combineReducers, applyMiddleware } from "redux";
 
-const { createStore, combineReducers, applyMiddleware } = require("redux");
 
 const rootReducer = combineReducers({
     app: appReducer,
@@ -15,6 +17,7 @@ const rootReducer = combineReducers({
     dialogs: dialogReducer,
     contacts: contactsReducer,
     profile: profileReducer,
+    chat: chatReducer
 });
 
 const store = createStore(rootReducer,  composeWithDevTools(applyMiddleware(thunk)));

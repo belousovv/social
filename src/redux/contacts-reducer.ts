@@ -144,22 +144,15 @@ export const getFriends = (): TThunk => {
   };
 };
 
-export const getContacts = (): TThunk => {
+export const getContacts = (pageSize: number, page: number, term: string): TThunk => {
   return async (dispatch, getState) => {
     const response = await usersApi.getContacts(
-      getState().contacts.count,
-      getState().contacts.page,
-      getState().contacts.filter.term,
+      pageSize,
+      page,
+      term
     );
     dispatch(actions.setContacts(response.items));
     dispatch(actions.setTotalCountUsers(response.totalCount));
-  };
-};
-
-export const getContactsByName = (name: string): TThunk => {
-  return async (dispatch) => {
-    const response = await usersApi.getContactsByName(name);
-    dispatch(actions.setContacts(response.items));
   };
 };
 
@@ -168,7 +161,7 @@ export const changePage = (page: number): TThunk => {
     const response = await usersApi.getContacts(
       getState().contacts.count,
       page,
-      getState().contacts.filter.term
+      getState().contacts.filter.term!
     );
     dispatch(actions.setContacts(response.items));
     dispatch(actions.setPage(page));

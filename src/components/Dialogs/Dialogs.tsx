@@ -17,7 +17,6 @@ const Dialogs: React.FC<TMstp> = (props) => {
       <div className={styles.wrapper}>
         <MessageForm />
         <Messages />
-        <div className={styles.wip}>work in progress</div>
       </div>
       <Messangers />
     </div>

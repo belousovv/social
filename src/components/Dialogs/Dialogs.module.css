@@ -7,15 +7,3 @@
 .wrapper {
     width: 100%;
 }
-
-.wip {
-    position: absolute;
-    top: 23%;
-    left: 22%;
-    transform: rotate(-45deg);
-    font-weight: 700;
-    font-size: 52px;
-    color: rgb(184, 109, 109);
-    opacity: 0.4;
-    user-select: none;
-}

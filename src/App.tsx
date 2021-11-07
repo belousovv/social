@@ -15,9 +15,10 @@ import LoginWarning from "./components/LoginWarning/LoginWarning";
 import Page404 from "./components/Page404/Page404";
 import { TRootState } from "./redux/store";
 import LoginPage from "./components/LoginPage/LoginPage";
+import Chat from "./components/Chat/Chat";
 
 const App: React.FC<TProps> = (props) => {
-
+ 
   useEffect(() => {
     props.startInitialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,6 +38,7 @@ const App: React.FC<TProps> = (props) => {
             <Route path="/warning" render={() => <LoginWarning />} />
             <Route path="*" render={() => <Page404 />} />
           </Switch>
+          <Chat />
         </main>
       </div>
     );

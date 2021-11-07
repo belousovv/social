@@ -37,7 +37,7 @@ export const securityApi = {
 export const usersApi = {
   getContacts(count: number, page: number, term: string) {
     return instance
-      .get<TGetContacts>(`users?page=${page}&count=${count}` + (term && term))
+      .get<TGetContacts>(`users?page=${page}&count=${count}` + (term && `&term=${term}`))
       .then((response) => response.data);
   },
   getFriends() {

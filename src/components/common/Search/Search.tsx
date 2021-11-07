@@ -1,16 +1,28 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { actions } from "../../../redux/contacts-reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { actions, getContacts } from "../../../redux/contacts-reducer";
+import { selectFilter, selectPage } from "../../../redux/contacts-selectors";
 import styles from "./Search.module.css";
 
-const Search: React.FC<TOwn> = (props) => {
+const Search: React.FC = (props) => {
   const dispatch = useDispatch();
-  const { watch, register, handleSubmit } = useForm();
+  const currentPage = useSelector(selectPage);
+  const filter = useSelector(selectFilter);
+  let defaultTerm = "";
+  if (filter.term) {
+    defaultTerm = filter.term;
+  }
+  const { watch, register, handleSubmit } = useForm({
+    defaultValues: {
+      input: defaultTerm,
+    }
+  });
 
   const onSubmit = () => {
-    props.handleSubmit(watch("input"));
     dispatch(actions.setFilter(watch("input")));
+    dispatch(getContacts(8, currentPage, watch("input")));
+    dispatch(actions.setPage(1));
   };
   return (
     <div className={styles.search}>
@@ -27,9 +39,3 @@ const Search: React.FC<TOwn> = (props) => {
 };
 
 export default Search;
-
-// Types
-
-type TOwn = {
-  handleSubmit: (input: string) => void;
-}
