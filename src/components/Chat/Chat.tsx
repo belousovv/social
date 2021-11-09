@@ -12,9 +12,6 @@ import { selectMessages } from "../../redux/chat-selectors";
 
 const Chat: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
-  const [channelStatus, setChannelStatus] = useState<"pending" | "open">(
-    "open"
-  );
   const messages = useSelector(selectMessages);
 
   const dispatch = useDispatch();
@@ -38,7 +35,7 @@ const Chat: React.FC = () => {
             <p className={styles.title}>Welcome to Chat</p>
           </div>
           <Messages messages={messages} />
-          <Form channelStatus={channelStatus} />
+          <Form />
         </div>
       )}
       <div

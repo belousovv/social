@@ -1,24 +1,27 @@
 import React, { useEffect } from "react";
 import styles from "./Success.module.css";
 import avatarDefault from "../../../img/default-avatar.png";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUserData, logout } from "../../../redux/auth-reducer";
 import Dropdown from "../Dropdown/Dropdown";
 import { selectName, selectPhotoSmall } from "../../../redux/auth-selectors";
-import { TRootState } from "../../../redux/store";
 
-const Success: React.FC<TProps> = (props) => {
+const Success: React.FC = () => {
+  const avatar = useSelector(selectPhotoSmall);
+  const name = useSelector(selectName);
+  const dispatch = useDispatch();
+
   const onLogoutSubmit = () => {
-    props.logout();
+    dispatch(logout());
   };
   useEffect(()=>{
-    props.getUserData();
+    dispatch(getUserData());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className={styles.success}>
-      <img className={styles.img} src={props.avatar ? props.avatar : avatarDefault} alt="avatar" />
-      <h6 className={styles.name}>{props.name}</h6>
+      <img className={styles.img} src={avatar ? avatar : avatarDefault} alt="avatar" />
+      <h6 className={styles.name}>{name}</h6>
       <Dropdown
         items={[
           { id: "1", item: "****" },
@@ -30,22 +33,4 @@ const Success: React.FC<TProps> = (props) => {
   );
 };
 
-const mapStateToProps = (state: TRootState) => ({
-  avatar: selectPhotoSmall(state),
-  name: selectName(state),
-});
-export default connect<TMstp, TMdtp, {}, TRootState>(mapStateToProps, { logout, getUserData })(Success);
-
-// Types 
-
-type TMstp = {
-  avatar: string;
-  name: string;
-}
-
-type TMdtp = {
-  logout: () => void;
-  getUserData: () => void;
-}
-
-type TProps = TMstp & TMdtp;
+export default Success;

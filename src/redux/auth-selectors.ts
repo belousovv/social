@@ -19,3 +19,7 @@ export const selectName = (state: TRootState) => {
 export const selectPhotoSmall = (state: TRootState) => {
     return state.auth.photoSmall;
 }
+
+export const selectCaptcha = (state: TRootState) => {
+    return state.auth.captcha;
+}

@@ -106,7 +106,7 @@ export const putPhoto = (photo: any): TThunk => {
     const response = await profileApi.putPhoto(photo);
     if (response.resultCode === 0) {
       const id = getState().auth.id;
-      const responce = await profileApi.getProfile(id);
+      const responce = await profileApi.getProfile(id!);
       if (responce) {
         dispatch(actions.setProfile(responce));
       }

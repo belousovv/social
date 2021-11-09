@@ -11,7 +11,7 @@ const initialState = {
   friends: null as null | Array<TUser>,
   filter: {
     term: null,
-  } as TTerm,
+  } as TFilter,
 };
 
 // actions
@@ -204,7 +204,7 @@ export type TUser = {
   photos: { small: string | null; large: string | null };
 };
 
-type TTerm = {
+export type TFilter = {
   term: null | string;
 }
 

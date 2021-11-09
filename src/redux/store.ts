@@ -5,11 +5,8 @@ import appReducer from "./app-reducer";
 import dialogReducer from "./dialogs-reducer";
 import contactsReducer from "./contacts-reducer";
 import profileReducer from "./profile-reducer";
-import { Action } from "redux";
+import { Action, createStore, combineReducers, applyMiddleware } from "redux";
 import chatReducer from "./chat-reducer";
-// const { createStore, combineReducers, applyMiddleware } = require("redux");
-import { createStore, combineReducers, applyMiddleware } from "redux";
-
 
 const rootReducer = combineReducers({
     app: appReducer,

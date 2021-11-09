@@ -1,12 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../../redux/auth-reducer";
-import { captcha } from "../../../redux/auth-selectors";
-import { TRootState } from "../../../redux/store";
+import { selectCaptcha } from "../../../redux/auth-selectors";
 import styles from "./Login.module.css";
 
-const Login: React.FC<TProps> = (props) => {
+const Login: React.FC = (props) => {
+  const dispatch = useDispatch();
+  const captcha = useSelector(selectCaptcha);
+
   const { register, watch, handleSubmit } = useForm();
   const onSubmit = () => {
     const data = {
@@ -15,8 +17,9 @@ const Login: React.FC<TProps> = (props) => {
       rememberMe: true,
       captcha: watch("captcha"),
     };
-    props.login(data.email, data.password, data.rememberMe, data.captcha);
+    dispatch(login(data.email, data.password, data.rememberMe, data.captcha));
   };
+
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <input
@@ -31,13 +34,9 @@ const Login: React.FC<TProps> = (props) => {
         {...register("password")}
         placeholder="password"
       />
-      {props.captcha && (
+      {captcha && (
         <>
-          <img
-            className={styles.captchaImg}
-            src={props.captcha}
-            alt="captcha"
-          />
+          <img className={styles.captchaImg} src={captcha} alt="captcha" />
           <input
             className={styles.input}
             type="text"
@@ -49,22 +48,13 @@ const Login: React.FC<TProps> = (props) => {
       <button className={styles.btn} type="submit">
         login
       </button>
+      <div className={styles.note}>
+        <h6 className={styles.title}>for test:</h6>
+        <p className={styles.text}>Email: <b>free@samuraijs.com</b></p>
+        <p className={styles.text}>Password: <b>free</b></p>
+      </div>
     </form>
   );
 };
-const mapStateToProps = (state: TRootState) => ({
-  captcha: captcha(state),
-});
-export default connect<TMstp, TMdtp, {}, TRootState>(mapStateToProps, { login })(Login);
 
-// Types
-
-type TMstp = {
-  captcha: string;
-}
-
-type TMdtp = {
-  login: (email: string, password: string, rememberMe: boolean, captcha: string) => void;
-}
-
-type TProps = TMstp & TMdtp;
+export default Login;

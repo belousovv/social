@@ -147,7 +147,7 @@ export const getCaptcha = (): TThunks => {
 
 export const getUserData = (): TThunks => {
   return async (dispatch, getState) => {
-    const response = await profileApi.getProfile(getState().auth.id);
+    const response = await profileApi.getProfile(getState().auth.id!);
     if (response) {
       dispatch(actions.setName(response.fullName));
       if (response.photos && response.photos.small) {
